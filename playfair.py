@@ -98,6 +98,27 @@ def encoding(list,box):
         prolist.append(enctemp)
     return prolist
 
+def decoding(list, box):
+    prolist = []
+    enctemp = []
+    for i in range(len(list)):
+        primeX, primeY = index_2d(box, list[i][0])
+        seconX, seconY = index_2d(box, list[i][1])
+        if primeX == seconX:
+            reprm = box[primeX][(primeY +4) % 5]
+            rescd = box[seconX][(seconY +4) % 5]
+            enctemp = [reprm, rescd]
+        elif primeY == seconY:
+            reprm = box[(primeX +4) % 5][primeY]
+            rescd = box[(seconX +4) % 5][seconY]
+            enctemp = [reprm, rescd]
+        else:
+            reprm = box[seconX][primeY]
+            rescd = box[primeX][seconY]
+            enctemp = [reprm, rescd]
+        prolist.append(enctemp)
+    return prolist
+
 
 if __name__ == "__main__":
     while True:
@@ -128,10 +149,25 @@ if __name__ == "__main__":
 
     list = makelist(text)
     #print(list)
-    encodedTxt = encoding(list,box)
-    #print(encodedTxt)
-    result = ''
-    for i in encodedTxt:
-        tem = ''.join(i)
-        result += tem
-    print("encoded result: "+result)
+
+    while True:
+        enmode = input("encode/decode: ")
+        if enmode == "encode":
+            encodedTxt = encoding(list,box)
+            #print(encodedTxt)
+            result = ''
+            for i in encodedTxt:
+                tem = ''.join(i)
+                result += tem
+            print("encoded result: "+result)
+            break
+        elif enmode == "decode":
+            decodedTxt = decoding(list,box)
+            result = ''
+            for i in decodedTxt:
+                tem = ''.join(i)
+                result += tem
+            print("decoded result: "+result)
+            break
+        else:
+            print("Invalid mode %s" %enmode)
